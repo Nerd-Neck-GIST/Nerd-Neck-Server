@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load socialaccount %}
+
+{% block content %}
+    <div style="text-align: center; max-width:500px; margin:4rem auto">
+        <div>
+            <h4>Login</h4>
+        </div>
+        <div>
+            <form action="" method="post">
+
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" class="btn btn-dark rounded-pill col-6 mt-4">
+            </form>
+            <a href="{% url 'accountapp:signup' %}" class="btn btn-dark rounded-pill col-6 mt-4">
+                회원가입
+            </a>
+        </div>
+    </div>
+    {% if not user.is_authenticated %}
+    <div style="text-align: center;">
+
+    </div>
+    {% endif %}
+{% endblock %}

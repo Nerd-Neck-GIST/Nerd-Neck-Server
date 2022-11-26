@@ -1,0 +1,33 @@
+<div style="text-align: center; margin:2rem 0;">
+    <div>
+        <h1 style = "font-family: 'Raleway', sans-serif; margin-bottom: 1.8rem;">GroupBy</h1>
+    </div>
+    <div>
+        <a href="{% url 'articleapp:list' %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+            <span>Articles</span>
+        </a>
+        <a href="{% url 'projectapp:list' %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+            <span>Projects</span>
+        </a>
+        <a href="{% url 'subscriptionapp:list' %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+            <span>Subscription</span>
+        </a>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'accountapp:login' %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+<!--            ?next={{ request.path }}-->
+            <span>Login</span>
+        </a>
+        {% else %}
+        <a href="{% url 'accountapp:detail' pk=user.pk %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+            <span>MyPage</span>
+        </a>
+        <a href="{% url 'accountapp:logout' %}?next={{ request.path }}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif; padding: 1rem">
+            <span>Logout</span>
+        </a>
+        <div style="margin-top: 1rem; font-family: 'Raleway', sans-serif;">
+            <h6><a href="{% url 'accountapp:detail' pk=user.pk %}" style="color:black; text-decoration-line: none; font-family: 'Raleway', sans-serif;">{{ user.username }}</a> 님 안녕하세요.</h6>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
