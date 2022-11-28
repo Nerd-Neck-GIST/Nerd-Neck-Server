@@ -6,11 +6,12 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <!-- <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
-    {{ room_name|json_script:"room-name" }}
-    <script>
+    {{ room_name|json_script:"room-name" }} -->
+    
+    <!-- <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
@@ -45,6 +46,15 @@
             }));
             messageInputDom.value = '';
         };
-    </script>
+    </script> -->
+
+    <div id="videos">
+        <video id="localVideo" autoplay muted playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+    
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    {{ room_name|json_script:"room-name" }} -->
+    <script src="js/main.js"></script>
 </body>
 </html>
