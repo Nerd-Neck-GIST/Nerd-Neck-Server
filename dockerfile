@@ -26,7 +26,7 @@ RUN pip3 install -r /home/ubuntu/nerdneck/requirements.txt
 
 RUN pip3 install gunicorn
 
-RUN python manage.py collectstatic --settings=GroupBy.settings.local --noinput
+RUN python manage.py collectstatic --settings=nerdneck.settings --noinput
 
 EXPOSE 8000
 

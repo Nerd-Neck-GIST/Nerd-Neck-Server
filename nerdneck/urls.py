@@ -20,9 +20,7 @@ from django.urls import path, include
 import measurementapp.views
 
 urlpatterns = [
-    path('', measurementapp.views.measurement_main, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accountapp.urls')),
-    path("detectme", measurementapp.views.detectme,name="detectme"), # 웹캠 링크,
     path('chat/', include('chatapp.urls')),
 ]
