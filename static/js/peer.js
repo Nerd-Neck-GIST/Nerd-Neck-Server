@@ -54,7 +54,7 @@ btnToggleVideo = document.querySelector("#btn-toggle-video");
 // });
 
 // ul of messages
-// var ul = document.querySelector("#message-list");
+var ul = document.querySelector("#message-list");
 
 var pcConfig = {
     'iceServers': [{
@@ -117,7 +117,7 @@ btnJoin.addEventListener('click', () => {
 
         // notify other peers
         sendSignal('new-peer', {
-            'local_screen_sharing': false,
+            // 'local_screen_sharing': false,
         });
     });
     
@@ -439,16 +439,16 @@ function sendSignal(action, message){
 // send sdp to remote peer after gathering is complete
 function createOfferer(peerUsername, receiver_channel_name){
     var peer = new RTCPeerConnection(pcConfig);
-    
+
     // add local user media stream tracks
     addLocalTracks(peer);
-
+    
     // create and manage an RTCDataChannel
     var dc = peer.createDataChannel("channel");
-    dc.onopen = () => {
+    dc.addEventListener('open', () => {
         console.log("Connection opened.");
-    };
-    dc.onmessage = dcOnMessage;
+    });
+    dc.addEventListener('message', dcOnMessage);
 
     var remoteVideo = createVideo(peerUsername);
     setOnTrack(peer, remoteVideo);
@@ -509,7 +509,7 @@ function createOfferer(peerUsername, receiver_channel_name){
 
     mapPeers[peerUsername] = [peer, dc];
 
-    peer.addEventListner('iceconnectionstatechange', () => {
+    peer.addEventListener('iceconnectionstatechange', () => {
         var iceConnectionState = peer.iceConnectionState;
         if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
             delete mapPeers[peerUsername];
@@ -570,7 +570,7 @@ function createAnswerer(offer, peerUsername, receiver_channel_name){
         setOnTrack(peer, remoteVideo);
 
         // it will have an RTCDataChannel
-        peer.addEventListner('datachannel', e => {
+        peer.addEventListener('datachannel', e => {
             console.log('e.channel.label: ', e.channel.label);
             peer.dc = e.channel;
             peer.dc.onmessage = dcOnMessage;
