@@ -10,13 +10,19 @@ services:
       - media-volume:/data/media
     ports:
       - 80:80
+    depends_on:
+      - django_gunicorn
+
   django_gunicorn:
-    image: django-image:4
+    image: django-image:9
     networks:
       - network
     volumes:
-      - static-volume:/home/ubuntu/group-by-server/static
-      - media-volume:/home/ubuntu/group-by-server/media
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+    command: >
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout=60"
+
     depends_on:
       - redis
   redis:

@@ -26,8 +26,8 @@ RUN pip3 install -r /home/ubuntu/nerdneck/requirements.txt
 
 RUN pip3 install gunicorn
 
+RUN pip3 install uvicorn
+
 RUN python manage.py collectstatic --settings=nerdneck.settings --noinput
 
 EXPOSE 8000
-
-CMD ["bash", "-c","python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.wsgi --bind 0.0.0.0:8000 --timeout=60"]
