@@ -1,21 +1,11 @@
+<!DOCTYPE html>
+
 {% load static %}
 
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
     <title>Django Channels webrtc</title>
-    <!-- BOOTSTRAP LINK -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
-    <!-- GOOGLE FONTS LINK -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
-
-    <!-- DEFAULT CSS LINK -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <meta name ="google-signin-client_id" content="1013766092116-92dh6nq19v0c30ganfdflm3edq5fco6l.apps.googleusercontent.com">
-
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@2.2.2/dist/posenet.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@3.11.0/dist/tf-core.min.js"></script>
@@ -83,3 +73,72 @@
 		}
 	  </style>
 </head>
+<body>
+    <h3 id="label-username">USERNAME</h3>
+	<div>
+		<input id="username"><button id="btn-join">Join Room</button>
+	</div>
+
+
+
+
+
+	<div>
+		<video id="local-video" width="400" height="300" style="background-color: black; position: absolute; top: 16%; left: 0%;" autoplay playsinline></video>
+		<canvas id="canvas"></canvas>
+		<video id="remote-video" width="400" height="300" style="background-color: black; position: absolute; top: 16%; left: 32%;" autoplay playsinline></rvideo>
+	</div>
+
+    <div class="main-grid-container">
+		<!-- for grid layout
+		assign class video-grad-layout -->
+		<div id="video-container">
+			
+			
+			<!-- <button id="btn-toggle-audio" class="btn btn-dark">Audio Mute</button> -->
+			<!-- <button id="btn-toggle-video" class="btn btn-dark">Video Off</button> -->
+		</div>
+
+
+
+
+
+
+		<!-- <div id="chat">
+			<h3> CHAT </h3>
+			<div id="messages">
+				<ul id="message-list"></ul>
+			</div>
+			<div id="ct"><input id="msg"><button id="btn-send-msg">send</button></div>
+			<button id="btn-share-screen">Share Screen</button>
+			
+			<button id="btn-record-screen">Record Screen</button>
+			
+			<button class="view-button" id="share-file-button">Share File</button>
+			<div id="select-file-dialog" style="display: none;">
+				<div id="dialog-content">
+				  <div id="select-file">
+					<div id="label">Select a file:</div>
+					<input type="file" id="select-file-input">
+				  </div>
+				  <div id="dialog-footer">
+					<button id="ok-button" disabled>Ok</button>
+					<button id="cancel-button" class="cancel-button">Cancel</button>
+				  </div>
+				</div>
+			  </div>
+		</div> -->
+	</div>
+    {% block content %}
+    {% endblock %}
+    
+    <!-- <div id="videos">
+        <video id="localVideo" autoplay muted playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+    
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    {{ room_name|json_script:"room-name" }} -->
+    <!--<script src="js/main.js"></script> -->
+</body>
+</html>
