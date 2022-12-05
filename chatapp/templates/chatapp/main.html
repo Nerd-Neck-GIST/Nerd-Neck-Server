@@ -5,15 +5,6 @@
 
 {% block content %}
 
-	<!-- <head>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@2.2.2/dist/posenet.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@3.11.0/dist/tf-core.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.11.0/dist/tf-converter.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@3.11.0/dist/tf-backend-webgl.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@0.0.6/dist/pose-detection.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-	</head> -->
 	
 		<h3 id="label-username">USERNAME</h3>
 		<div>
@@ -38,8 +29,22 @@
 
 		</div>
 
+		<div id="modal" class="modal-overlay">
+			<div class="modal-window">
+				<div class="title">
+					<h2>Nerd Neck</h2>
+				</div>
+				<div class="close-area">X</div> 
+				<div class="content">
+					<p>자세가 좋지 않습니다</p>
+				</div>
+				
+			</div>
+		</div>
+
 		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 		<script type="text/javascript" src="{% static 'js/peer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
 	
 
 

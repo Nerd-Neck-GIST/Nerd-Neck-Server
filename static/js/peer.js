@@ -429,7 +429,7 @@ posenet.load().then((model) => {
     localVideo.addEventListener('loadeddata', (e) => {
         //비디오가 load된 다음에 predict하도록. (안하면 콘솔에 에러뜸)
         predict();
-        console.log('hi');
+       
         
     });
     let total_angle=0;
@@ -447,37 +447,39 @@ posenet.load().then((model) => {
             drawKeypoints(pose.keypoints, 0.6, context); //정확도 
             drawSkeleton(pose.keypoints, 0.6, context);
             keypoints = pose.keypoints
+            
         });
         
         requestAnimationFrame(predict); //frame이 들어올 때마다 재귀호출
+        
     }
     
-    // setInterval(function(){
-    //     angle = findAngle(keypoints);
-    //     if (angle != -1){
-    //         console.log("angle: %d", angle);
-    //         total_angle = total_angle + angle;
-    //         cnt++;
-    //     }
-    //     else{
-    //         console.log("not detected")
-    //     }
-    // }, 1000)
+    setInterval(function(){
+        angle = findAngle(keypoints);
+        if (angle != -1){
+            console.log("angle: %d", angle);
+            total_angle = total_angle + angle;
+            cnt++;
+        }
+        else{
+            console.log("not detected")
+        }
+    }, 1000)
 
-    // setInterval(function(){
-    //     avg_angle=total_angle/cnt
-    //     console.log("avg_angle: %d", avg_angle);
-    //     if(avg_angle > 15){
-    //         console.log(avg_angle);
-    //         modalOn();
-    //         setTimeout(function(){
-    //             modalOff()
-    //         }, 2000);
-    //     }
-    //     avg_angle=0;
-    //     total_angle=0;
-    //     cnt=0;
-    // }, 5000);
+    setInterval(function(){
+        avg_angle=total_angle/cnt
+        console.log("avg_angle: %d", avg_angle);
+        if(avg_angle > 15){
+            console.log(avg_angle);
+            modalOn();
+            setTimeout(function(){
+                modalOff()
+            }, 2000);
+        }
+        avg_angle=0;
+        total_angle=0;
+        cnt=0;
+    }, 5000);
 });
 
 /* PoseNet을 쓰면서 사용하는 함수들 코드 - 그냥 복사해서 쓰기*/
@@ -496,6 +498,7 @@ function drawPoint(ctx, y, x, r, color) {
     ctx.arc(x, y, r, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
+    
 }
 
 function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
@@ -516,6 +519,7 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
 }
 
 function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+    console.log("hoho")
     for (let i = 0; i < keypoints.length; i++) {
         const keypoint = keypoints[i];
 
@@ -541,33 +545,33 @@ function drawBoundingBox(keypoints, ctx) {
     ctx.stroke();
 }
 
-// function findAngle(keypoints){
-//     let angle;
-//     let leftEar = keypoints[3]
-//     let rightEar = keypoints[4]
-//     let leftShoulder = keypoints[5]
-//     let rightShoulder = keypoints[6]
-//     let threshold = 0.9
-//     if(leftEar.score >= threshold && leftShoulder.score >= threshold && rightShoulder.score >= threshold && rightEar.score >= threshold){
-//         posEarY = (leftEar.position.y + rightEar.position.y)/2
-//         posEarX = (leftEar.position.x + rightEar.position.x)/2
-//         posShoulderY = (leftShoulder.position.y + rightShoulder.position.y)/2
-//         posShoulderX = (leftShoulder.position.x + rightShoulder.position.x)/2
-//         angle = 90 - Math.atan(Math.abs(posEarY - posShoulderY)/Math.abs(posEarX - posShoulderX))*180/Math.PI;
-//     } 
-//     // When User come to left
-//     else if (leftEar.score >= threshold && leftShoulder.score >= threshold){
-//         angle = 90 - Math.atan(Math.abs(leftEar.position.y - leftShoulder.position.y)/Math.abs(leftEar.position.x - leftShoulder.position.x))*180/Math.PI;
-//     }
-//     // When User come to right
-//     else if (rightEar.score >= threshold && rightShoulder.score >= threshold){
-//         angle = 90 - Math.atan(Math.abs(rightEar.position.y - rightShoulder.position.y)/Math.abs(rightEar.position.x - rightShoulder.position.x))*180/Math.PI;
-//     }
-//     else{
-//         return -1;
-//     }
-//     return angle;
-// }
+function findAngle(keypoints){
+    let angle;
+    let leftEar = keypoints[3]
+    let rightEar = keypoints[4]
+    let leftShoulder = keypoints[5]
+    let rightShoulder = keypoints[6]
+    let threshold = 0.9
+    if(leftEar.score >= threshold && leftShoulder.score >= threshold && rightShoulder.score >= threshold && rightEar.score >= threshold){
+        posEarY = (leftEar.position.y + rightEar.position.y)/2
+        posEarX = (leftEar.position.x + rightEar.position.x)/2
+        posShoulderY = (leftShoulder.position.y + rightShoulder.position.y)/2
+        posShoulderX = (leftShoulder.position.x + rightShoulder.position.x)/2
+        angle = 90 - Math.atan(Math.abs(posEarY - posShoulderY)/Math.abs(posEarX - posShoulderX))*180/Math.PI;
+    } 
+    // When User come to left
+    else if (leftEar.score >= threshold && leftShoulder.score >= threshold){
+        angle = 90 - Math.atan(Math.abs(leftEar.position.y - leftShoulder.position.y)/Math.abs(leftEar.position.x - leftShoulder.position.x))*180/Math.PI;
+    }
+    // When User come to right
+    else if (rightEar.score >= threshold && rightShoulder.score >= threshold){
+        angle = 90 - Math.atan(Math.abs(rightEar.position.y - rightShoulder.position.y)/Math.abs(rightEar.position.x - rightShoulder.position.x))*180/Math.PI;
+    }
+    else{
+        return -1;
+    }
+    return angle;
+}
 
 // send the given action and message
 // over the websocket connection
