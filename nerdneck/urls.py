@@ -24,5 +24,6 @@ urlpatterns = [
     path('', homeView, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accountapp.urls')),
+    path('profiles/', include('profileapp.urls')),
     path('chat/', include('chatapp.urls')),
 ]

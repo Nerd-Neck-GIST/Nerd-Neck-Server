@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.209.17.71"]
+ALLOWED_HOSTS = ["13.209.17.71", "127.0.0.1", "jclee.shop", "www.jclee.shop"]
 
 
 # Application definition
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'accountapp',
+    'profileapp',
     'measurementapp',
     'chatapp',
 

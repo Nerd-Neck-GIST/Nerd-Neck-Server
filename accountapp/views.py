@@ -31,7 +31,7 @@ class AccountDetailView(DetailView, MultipleObjectMixin):
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
-        object_list = Measurement.objects.filter(writer= self.get_object())
+        object_list = ['test1', 'test2', 'test3']
         return super(AccountDetailView, self).get_context_data(object_list=object_list, **kwargs)
 
 
