@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div style="text-align: center; max-width:500px; margin:4rem auto">
+        <div>
+            <h4>안녕안녕나는지수야</h4>
+        </div>
+        <div>
+            <a href="{% url 'chatapp:peer' %}" class="btn btn-dark rounded-pill col-6 mt-4">
+                헬륨가스 먹었떠니 요롷게 돼찌
+            </a>
+        </div>
+    </div>
+    {% if not user.is_authenticated %}
+    <div style="text-align: center;">
+
+    </div>
+    {% endif %}
+{% endblock %}

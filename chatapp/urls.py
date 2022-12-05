@@ -3,6 +3,8 @@ from django.urls import path
 
 from .views import peer1, peer2, peer
 
+app_name = "chatapp"
+
 urlpatterns = [
     path('', peer, name='peer'),
     path('peer1/', peer1, name='peer1'),
