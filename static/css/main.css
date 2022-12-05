@@ -1,3 +1,4 @@
+
 .video-container {
     display: grid;
     
@@ -8,7 +9,6 @@
 
 header {
     grid-area: header;
-
 }
 
 .main-grid-container {
@@ -18,13 +18,13 @@ header {
 
 canvas {
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 16%;
+    /* transform: translate(-50%, -50%); */
+    top: 30%;
     left: 0%;
 }
-video {
+/* video {
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-  }
+  } */
