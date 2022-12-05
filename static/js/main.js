@@ -53,18 +53,13 @@ var room = 'foo';
 //     }));
     
 // }
-
-
-// Triggered when websocket receives message from consumer
 websocket.onmessage = function(event) {
 
     // var text = "";
 
-    // extract message from json
     var msg = JSON.parse(event.data);
   
-    switch (msg.type) {
-        //#region commented
+    switch(msg.type) {
         // case "created":
         //     console.log('Created room ' + msg.room);
         //     isInitiator = true;
@@ -84,7 +79,6 @@ websocket.onmessage = function(event) {
         // case "log":
         //     console.log.apply(console, array);
         //     break;
-        //#endregion
         case 'message':
             console.log('Client received message:', msg.msg);
             if (msg.msg === 'got user media') {
@@ -119,7 +113,6 @@ window.addEventListener('load', init, false);
 //     }));
 // }
 
-// 메시지 보내기
 function sendMessage(message) {
     console.log('Client sending message: ', message);
     websocket.send(JSON.stringify({
@@ -138,7 +131,6 @@ function sendMessage(message) {
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
-// Get video stream from local webcam
 navigator.mediaDevices.getUserMedia({
     audio: false,
     video: true
@@ -190,7 +182,6 @@ window.onbeforeunload = function() {
 
 ///////////////////////////////////////////////////////////////////
 
-// create Peer connection using WebRTC API
 function createPeerConnection() {
     try {
       pc = new RTCPeerConnection(pcConfig);

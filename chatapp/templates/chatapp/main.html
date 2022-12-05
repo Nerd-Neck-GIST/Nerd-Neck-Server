@@ -21,6 +21,7 @@
 		</div>
 
 		<div>
+			
 			<!-- <video id="local-video" width="400" height="300" style="background-color: black; position: absolute; top: 16%; left: 0%;" autoplay playsinline></video> -->
 			<video id="local-video" width="400" height="300" style="background-color: black;" autoplay playsinline></video>
 
@@ -38,9 +39,23 @@
 
 		</div>
 
+		<div id="modal" class="modal-overlay">
+			<div class="modal-window">
+				<div class="title">
+					<h2>Nerd Neck</h2>
+				</div>
+				<div class="close-area">X</div>
+				<div class="content">
+					<p>자세가 좋지 않습니다</p>
+				</div>
+
+			</div>
+		</div>
+
 		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 		<script type="text/javascript" src="{% static 'js/peer.js' %}"></script>
-	
+		<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
+
 		{% else %}
 
 		<div style="text-align: center; max-width:500px; margin:4rem auto">
