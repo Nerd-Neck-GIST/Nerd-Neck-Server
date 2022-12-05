@@ -1,11 +1,12 @@
-
 {% extends 'base.html' %}
 
 {% load static %}
 
 {% block content %}
 		{% if user.is_authenticated %}
-		<h3 id="label-username">You : {{ user }}</h3>
+		<h3 id="label-username">Room Name : {{ room_name }}</h3>
+		<h3 id="label-username">User : {{ user.username }}</h3>
+
 		<div>
 			<input id="username" /><button id="btn-join">Join Room</button>
 		</div>

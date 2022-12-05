@@ -61,7 +61,7 @@ btnJoin.addEventListener('click', () => {
         // ignore if username is empty
         return;
     }
-    
+    endPoint = endPoint + username
     // clear input
     usernameInput.value = '';
     // disable and vanish input
