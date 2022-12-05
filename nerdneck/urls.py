@@ -18,8 +18,10 @@ from django.shortcuts import render
 from django.urls import path, include
 
 import measurementapp.views
+from accountapp.views import homeView
 
 urlpatterns = [
+    path('', homeView, name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accountapp.urls')),
     path('chat/', include('chatapp.urls')),
