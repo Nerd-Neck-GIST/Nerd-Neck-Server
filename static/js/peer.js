@@ -6,55 +6,15 @@ var mapPeers = {};
 // to remote peers
 var mapScreenPeers = {};
 
-// true if screen is being shared
-// false otherwise
-// var screenShared = false;
 
 const localVideo = document.querySelector('#local-video');
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 const remoteVideo = document.querySelector('#remote-video');
 
-// button to start or stop screen sharing
-// var btnShareScreen = document.querySelector('#btn-share-screen');
-
 // local video stream
 var localStream = new MediaStream();
 
-// local screen stream
-// for screen sharing
-// var localDisplayStream = new MediaStream();
-
-// buttons to toggle self audio and video
-// btnToggleAudio = document.querySelector("#btn-toggle-audio");
-// btnToggleVideo = document.querySelector("#btn-toggle-video");
-
-// var messageInput = document.querySelector('#msg');
-// var btnSendMsg = document.querySelector('#btn-send-msg');
-
-// button to start or stop screen recording
-// var btnRecordScreen = document.querySelector('#btn-record-screen');
-// object that will start or stop screen recording
-// var recorder;
-// true of currently recording, false otherwise
-// var recording = false;
-
-// var file;
-
-// document.getElementById('share-file-button').addEventListener('click', () => {
-//     document.getElementById('select-file-dialog').style.display = 'block';
-// });
-  
-// document.getElementById('cancel-button').addEventListener('click', () => {
-//     document.getElementById('select-file-input').value = '';
-//     document.getElementById('select-file-dialog').style.display = 'none';
-//     document.getElementById('ok-button').disabled = true;
-// });
-  
-// document.getElementById('select-file-input').addEventListener('change', (event) => {
-//     file = event.target.files[0];
-//     document.getElementById('ok-button').disabled = !file;
-// });
 
 // ul of messages
 var ul = document.querySelector("#message-list");
@@ -133,9 +93,6 @@ btnJoin.addEventListener('click', () => {
     webSocket.addEventListener('error', function(e){
         console.log('Error occured! ', e);
     });
-
-    // btnSendMsg.disabled = false;
-    // messageInput.disabled = false;
 });
 
 function webSocketOnMessage(event){
@@ -170,14 +127,6 @@ function webSocketOnMessage(event){
 
         // create new RTCPeerConnection
         createOfferer(peerUsername, receiver_channel_name);
-
-        // if(screenShared && !remoteScreenSharing){
-        //     // if local screen is being shared
-        //     // and remote peer is not sharing screen
-        //     // send offer from screen sharing peer
-        //     console.log('Creating screen sharing offer.');
-        //     createOfferer(peerUsername, true, remoteScreenSharing, receiver_channel_name);
-        // }
         
         return;
     }
@@ -204,16 +153,9 @@ function webSocketOnMessage(event){
         // get the corresponding RTCPeerConnection
         var peer = null;
         
-        // if(remoteScreenSharing){
-        //     // if answerer is screen sharer
-        //     peer = mapPeers[peerUsername + ' Screen'][0];
-        // }else if(localScreenSharing){
-        //     // if offerer was screen sharer
-        //     peer = mapScreenPeers[peerUsername][0];
-        // }else{
-            // if both are non-screen sharers
-            peer = mapPeers[peerUsername][0];
-        // }
+        
+        peer = mapPeers[peerUsername][0];
+      
 
         // get the answer
         var answer = parsedData['message']['sdp'];
@@ -233,51 +175,10 @@ function webSocketOnMessage(event){
     }
 }
 
-// messageInput.addEventListener('keyup', function(event){
-//     if(event.keyCode == 13){
-//         // prevent from putting 'Enter' as input
-//         event.preventDefault();
-
-//         // click send message button
-//         btnSendMsg.click();
-//     }
-// });
-
-// btnSendMsg.onclick = btnSendMsgOnClick;
-
-// function btnSendMsgOnClick(){
-//     var message = messageInput.value;
-    
-//     var li = document.createElement("li");
-//     li.appendChild(document.createTextNode("Me: " + message));
-//     ul.appendChild(li);
-    
-//     var dataChannels = getDataChannels();
-
-//     console.log('Sending: ', message);
-
-//     // send to all data channels
-//     for(index in dataChannels){
-//         dataChannels[index].send(username + ': ' + message);
-//     }
-    
-//     messageInput.value = '';
-// }
-
 const constraints = {
     'video': true,
     'audio': true
 }
-
-// const iceConfiguration = {
-//     iceServers: [
-//         {
-//             urls: ['turn:numb.viagenie.ca'],
-//             credential: numbTurnCredential,
-//             username: numbTurnUsername
-//         }
-//     ]
-// };
 
 navigator.mediaDevices.getUserMedia(constraints)
 .then(stream => {
@@ -301,130 +202,14 @@ navigator.mediaDevices.getUserMedia(constraints)
     // audioTracks[0].enabled = true;
     videoTracks[0].enabled = true;
 
-    // btnToggleAudio.onclick = function(){
-    //     audioTracks[0].enabled = !audioTracks[0].enabled;
-    //     if(audioTracks[0].enabled){
-    //         btnToggleAudio.innerHTML = 'Audio Mute';
-    //         return;
-    //     }
-        
-    //     btnToggleAudio.innerHTML = 'Audio Unmute';
-    // };
-
-    // btnToggleVideo.onclick = function(){
-    //     videoTracks[0].enabled = !videoTracks[0].enabled;
-    //     if(videoTracks[0].enabled){
-    //         btnToggleVideo.innerHTML = 'Video Off';
-    //         return;
-    //     }
-
-    //     btnToggleVideo.innerHTML = 'Video On';
-    // };
 })
-// .then(e => {
-//     btnShareScreen.onclick = event => {
-//         if(screenShared){
-//             // toggle screenShared
-//             screenShared = !screenShared;
-
-//             // set to own video
-//             // if screen already shared
-//             localVideo.srcObject = localStream;
-//             btnShareScreen.innerHTML = 'Share screen';
-
-//             // get screen sharing video element
-//             var localScreen = document.querySelector('#my-screen-video');
-//             // remove it
-//             removeVideo(localScreen);
-
-//             // close all screen share peer connections
-//             var screenPeers = getPeers(mapScreenPeers);
-//             for(index in screenPeers){
-//                 screenPeers[index].close();
-//             }
-//             // empty the screen sharing peer storage object
-//             mapScreenPeers = {};
-
-//             return;
-//         }
-        
-//         // toggle screenShared
-//         screenShared = !screenShared;
-
-//         navigator.mediaDevices.getDisplayMedia(constraints)
-//             .then(stream => {
-//                 localDisplayStream = stream;
-                
-//                 var mediaTracks = stream.getTracks();
-//                 for(i=0; i < mediaTracks.length; i++){
-//                     console.log(mediaTracks[i]);
-//                 }
-
-//                 var localScreen = createVideo('my-screen');
-//                 // set to display stream
-//                 // if screen not shared
-//                 localScreen.srcObject = localDisplayStream;
-
-//                 // notify other peers
-//                 // of screen sharing peer
-//                 sendSignal('new-peer', {
-//                     'local_screen_sharing': true,
-//                 });
-//             })
-//             .catch(error => {
-//                 console.log('Error accessing display media.', error);
-//             });
-
-//         btnShareScreen.innerHTML = 'Stop sharing';
-//     }
-// })
-// .then(e => {
-//     btnRecordScreen.addEventListener('click', () => {
-//         if(recording){
-//             // toggle recording
-//             recording = !recording;
-
-//             btnRecordScreen.innerHTML = 'Record Screen';
-
-//             recorder.stopRecording(function() {
-//                 var blob = recorder.getBlob();
-//                 invokeSaveAsDialog(blob);
-//             });
-
-//             return;
-//         }
-        
-//         // toggle recording
-//         recording = !recording;
-
-//         navigator.mediaDevices.getDisplayMedia(constraints)
-//             .then(stream => {
-//                 recorder = RecordRTC(stream, {
-//                     type: 'video',
-//                     MimeType: 'video/mp4'
-//                 });
-//                 recorder.startRecording();
-                
-//                 var mediaTracks = stream.getTracks();
-//                 for(i=0; i < mediaTracks.length; i++){
-//                     console.log(mediaTracks[i]);
-//                 }
-
-//             })
-//             .catch(error => {
-//                 console.log('Error accessing display media.', error);
-//             });
-
-//         btnRecordScreen.innerHTML = 'Stop Recording';
-//     });
-// })
 .catch(error => {
     console.error('Error accessing media devices.', error);
 });
 
 //then 안쪽이 function(model){} 이렇게 쓰는거랑 같다 (인자가 하나라 중괄호가 없는 것)
 posenet.load().then((model) => {
-    console.log('hi');
+    
     // 이곳의 model과 아래 predict의 model은 같아야 한다.
     localVideo.addEventListener('loadeddata', (e) => {
         //비디오가 load된 다음에 predict하도록. (안하면 콘솔에 에러뜸)
@@ -469,7 +254,7 @@ posenet.load().then((model) => {
     setInterval(function(){
         avg_angle=total_angle/cnt
         console.log("avg_angle: %d", avg_angle);
-        if(avg_angle > 15){
+        if(avg_angle > 30){
             console.log(avg_angle);
             modalOn();
             setTimeout(function(){
@@ -519,7 +304,7 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
 }
 
 function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-    console.log("hoho")
+    
     for (let i = 0; i < keypoints.length; i++) {
         const keypoint = keypoints[i];
 
@@ -561,10 +346,12 @@ function findAngle(keypoints){
     } 
     // When User come to left
     else if (leftEar.score >= threshold && leftShoulder.score >= threshold){
+        console.log("left");
         angle = 90 - Math.atan(Math.abs(leftEar.position.y - leftShoulder.position.y)/Math.abs(leftEar.position.x - leftShoulder.position.x))*180/Math.PI;
     }
     // When User come to right
     else if (rightEar.score >= threshold && rightShoulder.score >= threshold){
+        console.log("right");
         angle = 90 - Math.atan(Math.abs(rightEar.position.y - rightShoulder.position.y)/Math.abs(rightEar.position.x - rightShoulder.position.x))*180/Math.PI;
     }
     else{
@@ -605,60 +392,6 @@ function createOfferer(peerUsername, receiver_channel_name){
 
     // var remoteVideo = createVideo(peerUsername);
     setOnTrack(peer, remoteVideo);
-    // if(!localScreenSharing && !remoteScreenSharing){
-    //     // none of the peers are sharing screen (normal operation)
-    
-    //     dc.onmessage = dcOnMessage;
-
-    //     remoteVideo = createVideo(peerUsername);
-    //     setOnTrack(peer, remoteVideo);
-    //     console.log('Remote video source: ', remoteVideo.srcObject);
-
-    //     // store the RTCPeerConnection
-    //     // and the corresponding RTCDataChannel
-    //     mapPeers[peerUsername] = [peer, dc];
-
-    //     peer.oniceconnectionstatechange = () => {
-    //         var iceConnectionState = peer.iceConnectionState;
-    //         if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
-    //             console.log('Deleting peer');
-    //             delete mapPeers[peerUsername];
-    //             if(iceConnectionState != 'closed'){
-    //                 peer.close();
-    //             }
-    //             removeVideo(remoteVideo);
-    //         }
-    //     };
-    // }else if(!localScreenSharing && remoteScreenSharing){
-    //     // answerer is screen sharing
-
-    //     dc.onmessage = (e) => {
-    //         console.log('New message from %s\'s screen: ', peerUsername, e.data);
-    //     };
-
-    //     remoteVideo = createVideo(peerUsername + '-screen');
-    //     setOnTrack(peer, remoteVideo);
-    //     console.log('Remote video source: ', remoteVideo.srcObject);
-
-    //     // if offer is not for screen sharing peer
-    //     mapPeers[peerUsername + ' Screen'] = [peer, dc];
-
-    //     peer.oniceconnectionstatechange = () => {
-    //         var iceConnectionState = peer.iceConnectionState;
-    //         if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
-    //             delete mapPeers[peerUsername + ' Screen'];
-    //             if(iceConnectionState != 'closed'){
-    //                 peer.close();
-    //             }
-    //             removeVideo(remoteVideo);
-    //         }
-    //     };
-    // }else{
-        // offerer itself is sharing screen
-
-        // dc.onmessage = (e) => {
-        //     console.log('New message from %s: ', peerUsername, e.data);
-        // };
 
     mapPeers[peerUsername] = [peer, dc];
 
@@ -720,105 +453,35 @@ function createAnswerer(offer, peerUsername, receiver_channel_name){
         // var remoteVideo = createVideo(peerUsername);
 
         // and add tracks to remote video
-        setOnTrack(peer, remoteVideo);
+    setOnTrack(peer, remoteVideo);
 
-        // it will have an RTCDataChannel
-        peer.addEventListener('datachannel', e => {
-            console.log('e.channel.label: ', e.channel.label);
-            peer.dc = e.channel;
-            peer.dc.onmessage = dcOnMessage;
-            peer.dc.onopen = () => {
-                console.log("Connection opened.");
+    // it will have an RTCDataChannel
+    peer.addEventListener('datachannel', e => {
+        console.log('e.channel.label: ', e.channel.label);
+        peer.dc = e.channel;
+        peer.dc.onmessage = dcOnMessage;
+        peer.dc.onopen = () => {
+            console.log("Connection opened.");
+        }
+
+        // store the RTCPeerConnection
+        // and the corresponding RTCDataChannel
+        // after the RTCDataChannel is ready
+        // otherwise, peer.dc may be undefined
+        // as peer.ondatachannel would not be called yet
+        mapPeers[peerUsername] = [peer, peer.dc];
+    });
+
+    peer.addEventListener('iceconnectionstatechange', () => {
+        var iceConnectionState = peer.iceConnectionState;
+        if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
+            delete mapPeers[peerUsername];
+            if(iceConnectionState != 'closed'){
+                peer.close();
             }
-
-            // store the RTCPeerConnection
-            // and the corresponding RTCDataChannel
-            // after the RTCDataChannel is ready
-            // otherwise, peer.dc may be undefined
-            // as peer.ondatachannel would not be called yet
-            mapPeers[peerUsername] = [peer, peer.dc];
-        });
-
-        peer.addEventListener('iceconnectionstatechange', () => {
-            var iceConnectionState = peer.iceConnectionState;
-            if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
-                delete mapPeers[peerUsername];
-                if(iceConnectionState != 'closed'){
-                    peer.close();
-                }
-                removeVideo(remoteVideo);
-            }
-        });
-    // }else if(localScreenSharing && !remoteScreenSharing){
-    //     // answerer itself is sharing screen
-
-    //     // it will have an RTCDataChannel
-    //     peer.ondatachannel = e => {
-    //         peer.dc = e.channel;
-    //         peer.dc.onmessage = (evt) => {
-    //             console.log('New message from %s: ', peerUsername, evt.data);
-    //         }
-    //         peer.dc.onopen = () => {
-    //             console.log("Connection opened.");
-    //         }
-
-    //         // this peer is a screen sharer
-    //         // so its connections will be stored in mapScreenPeers
-    //         // store the RTCPeerConnection
-    //         // and the corresponding RTCDataChannel
-    //         // after the RTCDataChannel is ready
-    //         // otherwise, peer.dc may be undefined
-    //         // as peer.ondatachannel would not be called yet
-    //         mapScreenPeers[peerUsername] = [peer, peer.dc];
-
-    //         peer.oniceconnectionstatechange = () => {
-    //             var iceConnectionState = peer.iceConnectionState;
-    //             if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
-    //                 delete mapScreenPeers[peerUsername];
-    //                 if(iceConnectionState != 'closed'){
-    //                     peer.close();
-    //                 }
-    //             }
-    //         };
-    //     }
-    // }else{
-    //     // offerer is sharing screen
-
-    //     // set remote video
-    //     // var remoteVideo = createVideo(peerUsername + '-screen');
-        
-    //     // and add tracks to remote video
-    //     setOnTrack(peer, remoteVideo);
-
-    //     // it will have an RTCDataChannel
-    //     peer.addEventListener('datachannel', e => {
-    //         peer.dc = e.channel;
-    //         peer.dc.onmessage = evt => {
-    //             console.log('New message from %s\'s screen: ', peerUsername, evt.data);
-    //         }
-    //         peer.dc.onopen = () => {
-    //             console.log("Connection opened.");
-    //         }
-
-    //         // store the RTCPeerConnection
-    //         // and the corresponding RTCDataChannel
-    //         // after the RTCDataChannel is ready
-    //         // otherwise, peer.dc may be undefined
-    //         // as peer.ondatachannel would not be called yet
-    //         mapPeers[peerUsername + ' Screen'] = [peer, peer.dc];
-            
-    //     });
-    //     peer.oniceconnectionstatechange = () => {
-    //         var iceConnectionState = peer.iceConnectionState;
-    //         if (iceConnectionState === "failed" || iceConnectionState === "disconnected" || iceConnectionState === "closed"){
-    //             delete mapPeers[peerUsername + ' Screen'];
-    //             if(iceConnectionState != 'closed'){
-    //                 peer.close();
-    //             }
-    //             removeVideo(remoteVideo);
-    //         }
-    //     };
-    // }
+            removeVideo(remoteVideo);
+        }
+    });
 
     peer.addEventListener('icecandidate', (event) => {
         if(event.candidate){
@@ -851,11 +514,6 @@ function createAnswerer(offer, peerUsername, receiver_channel_name){
             console.log('Setting local answer for %s.', peerUsername);
             return peer.setLocalDescription(a);
         })
-        // .then(() => {
-        //     console.log('Answer created for %s.', peerUsername);
-        //     console.log('localDescription: ', peer.localDescription);
-        //     console.log('remoteDescription: ', peer.remoteDescription);
-        // })
         .catch(error => {
             console.log('Error creating answer for %s.', peerUsername);
             console.log(error);
@@ -928,15 +586,7 @@ function createVideo(peerUsername){
 
     // add the video to the wrapper
     videoWrapper.appendChild(remoteVideo);
-    // videoWrapper.appendChild(btnPlayRemoteVideo);
-
-    // as user gesture
-    // video is played by button press
-    // otherwise, some browsers might block video
-    // btnPlayRemoteVideo.addEventListener("click", function (){
-    //     remoteVideo.play();
-    //     btnPlayRemoteVideo.style.visibility = 'hidden';
-    // });
+   
 
     return remoteVideo;
 }
@@ -972,14 +622,6 @@ function addLocalTracks(peer){
         });
 
         return;
-    // }
-
-    // // if it is a screen sharing peer
-    // // add display media tracks
-    // localDisplayStream.getTracks().forEach(track => {
-    //     console.log('Adding localDisplayStream tracks.');
-    //     peer.addTrack(track, localDisplayStream);
-    // });
 }
 
 function removeVideo(video){
