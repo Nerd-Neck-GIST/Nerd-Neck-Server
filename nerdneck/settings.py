@@ -34,11 +34,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["13.209.17.71", "127.0.0.1", "jclee.shop", "www.jclee.shop"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'daphne',
+    'uvicorn',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     'profileapp',
     'measurementapp',
     'chatapp',
-
+  
+    "corsheaders",
+    
     # Channels
     'channels',
 
@@ -64,6 +66,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -128,7 +131,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('0.0.0.0', 6379)],
+            "hosts": [('redis', 6379)],
         },
     },
 }
@@ -173,3 +176,5 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+CORS_ALLOW_ALL_ORIGINS = True
