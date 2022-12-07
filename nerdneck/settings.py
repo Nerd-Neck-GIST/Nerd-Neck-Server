@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside th e project like this: BASE_DIR / 'subdir'.
 from django.urls import reverse_lazy
 import environ
 
@@ -32,8 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.209.17.71", "www.jclee.shop", "jclee.shop"]
-
+ALLOWED_HOSTS = ["13.209.17.71", "127.0.0.1", "jclee.shop", "www.jclee.shop"]
 
 # Application definition
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'accountapp',
+    'profileapp',
     'measurementapp',
     'chatapp',
   
@@ -79,7 +79,7 @@ ROOT_URLCONF = 'nerdneck.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,12 +152,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

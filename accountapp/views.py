@@ -23,16 +23,16 @@ class AccountCreateView(CreateView):
     template_name = 'accountapp/signup.html'
 
 
-# class AccountDetailView(DetailView, MultipleObjectMixin):
-#     model = User
-#     context_object_name = 'target_user'
-#     template_name = 'accountapp/detail.html'
-#
-#     paginate_by = 25
-#
-#     def get_context_data(self, **kwargs):
-#         object_list = Article.objects.filter(writer= self.get_object())
-#         return super(AccountDetailView, self).get_context_data(object_list=object_list, **kwargs)
+class AccountDetailView(DetailView, MultipleObjectMixin):
+    model = User
+    context_object_name = 'target_user'
+    template_name = 'accountapp/detail.html'
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = ['test1', 'test2', 'test3']
+        return super(AccountDetailView, self).get_context_data(object_list=object_list, **kwargs)
 
 
 @method_decorator(has_ownership, 'get')
@@ -102,5 +102,6 @@ class AccountListView(generics.ListAPIView):
 
         return Response(serializer.data)
 
-
+def homeView(request):
+    return render(request, 'accountapp/home.html')
 

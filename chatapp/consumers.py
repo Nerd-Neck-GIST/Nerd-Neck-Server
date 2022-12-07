@@ -22,7 +22,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print('Disconnected!')
 
     async def receive(self, text_data):
+        # convert from json to python using loads
         text_data_json = json.loads(text_data)
+        # get peer_username, action, message from converted json file
         peer_username = text_data_json['peer']
         action = text_data_json['action']
         message = text_data_json['message']
@@ -32,8 +34,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             # send it to the new peer or initial offerer respectively
 
             receiver_channel_name = text_data_json['message']['receiver_channel_name']
-
-         
 
             text_data_json['message']['receiver_channel_name'] = self.channel_name
 
@@ -52,7 +52,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # to this channel specifically
         text_data_json['message']['receiver_channel_name'] = self.channel_name
 
-        # send to all peers
+        # send to all peers (Broadcasting)
+        # channel layers defined in setting.py
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -62,7 +63,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
 
-        # "room" 그룹에서 메시지 전송
+    # "room" 그룹에서 메시지 전송
     async def send_sdp(self, event):
         receive_dict = event['receive_dict']
         
@@ -71,6 +72,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = receive_dict['message']
 
         # 웹 소켓으로 메시지 전송
+        # convert from python to json using dump
         await self.send(text_data=json.dumps({
             'peer': this_peer,
             'action': action,

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+		{% if user.is_authenticated %}
+		<h3 id="label-username">Room Name : {{ room_name }}</h3>
+		<h3 id="label-username">User : {{ user.username }}</h3>
+
+		<div>
+			<input id="username" /><button id="btn-join">Join Room</button>
+		</div>
+
+		<div>
+			
+			<!-- <video id="local-video" width="400" height="300" style="background-color: black; position: absolute; top: 16%; left: 0%;" autoplay playsinline></video> -->
+			<video id="local-video" width="400" height="300" style="background-color: black;" autoplay playsinline></video>
+
+			<canvas id="canvas"></canvas>
+			<video id="remote-video" width="400" height="300" style="background-color: black;" autoplay playsinline></video>
+			<!-- <video id="remote-video" width="400" height="300" style="background-color: black; position: absolute; top: 16%; left: 32%;" autoplay playsinline></rvideo> -->
+		</div>
+
+		<div class="main-grid-container">
+			<!-- for grid layout
+			assign class video-grad-layout -->
+			<div id="video-container">
+				<!-- <button id="btn-toggle-video" class="btn btn-dark">Video Off</button> -->
+			</div>
+
+		</div>
+
+		<div id="modal" class="modal-overlay">
+			<div class="modal-window">
+				<div class="title">
+					<h2>Nerd Neck</h2>
+				</div>
+				<div class="close-area">X</div>
+				<div class="content">
+					<p>자세가 좋지 않습니다</p>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+		<script type="text/javascript" src="{% static 'js/peer.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
+
+		{% else %}
+
+		<div style="text-align: center; max-width:500px; margin:4rem auto">
+        <div>
+            <h4>Please Login First</h4>
+        </div>
+        <div>
+            <a href="{% url 'accountapp:login' %}" class="btn btn-dark rounded-pill col-6 mt-4">
+                Login
+            </a>
+        </div>
+    	</div>
+
+		{% endif %}
+
+{% endblock %}
+
+
+

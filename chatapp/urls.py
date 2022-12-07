@@ -1,10 +1,11 @@
 # chatapp/urls.py
-from django.urls import path
+from django.urls import path, re_path
 
-from .views import peer1, peer2, peer
+from .views import main, enter_room
+
+app_name = "chatapp"
 
 urlpatterns = [
-    path('', peer, name='peer'),
-    path('peer1/', peer1, name='peer1'),
-    path('peer2/', peer2, name='peer2'),
+    path('', enter_room, name='enter_room'),
+    re_path('(?P<room_name>.*)$', main, name='main')
 ]

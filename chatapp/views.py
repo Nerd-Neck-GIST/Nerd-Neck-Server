@@ -1,10 +1,7 @@
 from django.shortcuts import render
 
-def peer1(request):
-    return render(request, 'chatapp/peer1.html')
+def enter_room(request):
+    return render(request, 'chatapp/enter_room.html')
 
-def peer2(request):
-    return render(request, 'chatapp/peer2.html')
-
-def peer(request):
-    return render(request, 'chatapp/peer.html')
+def main(request, room_name):
+    return render(request, 'chatapp/main.html', context={"room_name": room_name.split("/")[0]})
