@@ -46,53 +46,27 @@ var endPoint = wsStart + loc.host + loc.pathname;
 console.log('endpoint: ', endPoint);
 var webSocket;
 
-var usernameInput = document.querySelector('#username');
-var username;
+var start = document.querySelector('#start');
 
-var btnJoin = document.querySelector('#btn-join');
+webSocket = new WebSocket(endPoint);
 
-// set username
-// join room (initiate websocket connection)
-// upon button click
-btnJoin.addEventListener('click', () => {
-    username = usernameInput.value;
+webSocket.addEventListener('open', function(e){
+    console.log('Connection opened! ', e);
 
-    if(username == ''){
-        // ignore if username is empty
-        return;
-    }
-    endPoint = endPoint + username
-    // clear input
-    usernameInput.value = '';
-    // disable and vanish input
-    usernameInput.disabled = true;
-    usernameInput.style.visibility = 'hidden';
-    // disable and vanish join button
-    btnJoin.disabled = true;
-    btnJoin.style.visibility = 'hidden';
-
-    document.querySelector('#label-username').innerHTML = username;
-
-    webSocket = new WebSocket(endPoint);
-
-    webSocket.addEventListener('open', function(e){
-        console.log('Connection opened! ', e);
-
-        // notify other peers
-        sendSignal('new-peer', {
-            // 'local_screen_sharing': false,
-        });
+    // notify other peers
+    sendSignal('new-peer', {
+        // 'local_screen_sharing': false,
     });
-    
-    webSocket.addEventListener('message', webSocketOnMessage);
-    
-    webSocket.addEventListener('close', function(e){
-        console.log('Connection closed! ', e);
-    });
-    
-    webSocket.addEventListener('error', function(e){
-        console.log('Error occured! ', e);
-    });
+});
+
+webSocket.addEventListener('message', webSocketOnMessage);
+
+webSocket.addEventListener('close', function(e){
+    console.log('Connection closed! ', e);
+});
+
+webSocket.addEventListener('error', function(e){
+    console.log('Error occured! ', e);
 });
 
 function webSocketOnMessage(event){
