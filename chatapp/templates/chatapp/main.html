@@ -4,11 +4,11 @@
 
 {% block content %}
 		{% if user.is_authenticated %}
-		<h3 id="label-username">Room Name : {{ room_name }}</h3>
+		<h3 id="room-username">Room Name : {{ room_name }}</h3>
 		<h3 id="label-username">User : {{ user.username }}</h3>
 
 		<div>
-			<input id="username" /><button id="btn-join">Join Room</button>
+			<button id="start">Start Video</button>
 		</div>
 
 		<div>

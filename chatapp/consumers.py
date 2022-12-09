@@ -26,6 +26,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         # get peer_username, action, message from converted json file
         peer_username = text_data_json['peer']
+        print(peer_username)
+        #peer_username = self.scope["user"]
         action = text_data_json['action']
         message = text_data_json['message']
 
@@ -67,7 +69,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def send_sdp(self, event):
         receive_dict = event['receive_dict']
         
-        this_peer = receive_dict['peer']
+        this_peer = self.scope["user"]
         action = receive_dict['action']
         message = receive_dict['message']
 
