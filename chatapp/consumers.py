@@ -19,14 +19,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        print('Disconnected!')
 
     async def receive(self, text_data):
         # convert from json to python using loads
         text_data_json = json.loads(text_data)
         # get peer_username, action, message from converted json file
         peer_username = text_data_json['peer']
-        print(peer_username)
         #peer_username = self.scope["user"]
         action = text_data_json['action']
         message = text_data_json['message']

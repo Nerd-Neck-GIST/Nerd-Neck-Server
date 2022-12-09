@@ -11,20 +11,100 @@ services:
     ports:
       - 80:80
     depends_on:
-      - django_gunicorn
+      - django_gunicorn_0
+      - django_gunicorn_1
+      - django_gunicorn_2
+      - django_gunicorn_3
+      - django_gunicorn_4
+      - django_gunicorn_5
 
-  django_gunicorn:
-    image: django-image:9
+  django_gunicorn_0:
+    image: django-image:18
     networks:
       - network
     volumes:
       - static-volume:/home/ubuntu/nerdneck/static
       - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8000"
     command: >
       bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout=60"
 
     depends_on:
       - redis
+  django_gunicorn_1:
+    image: django-image:18
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8001"
+    command: >
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8001 --timeout=60"
+
+    depends_on:
+      - redis
+  django_gunicorn_2:
+    image: django-image:18
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8002"
+    command: >
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8002 --timeout=60"
+    depends_on:
+      - redis
+  django_gunicorn_3:
+    image: django-image:18
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8003"
+    command: >
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8003"
+    depends_on:
+      - redis
+  django_gunicorn_4:
+    image: django-image:18
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8004"
+    command: >
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8004"
+    depends_on:
+      - redis
+  django_gunicorn_5:
+    image: django-image:18
+    networks:
+      - network
+    volumes:
+      - static-volume:/home/ubuntu/nerdneck/static
+      - media-volume:/home/ubuntu/nerdneck/media
+      - /home/ubuntu/nerdneck/db.sqlite3:/home/ubuntu/nerdneck/db.sqlite3
+    expose:
+      - "8005"
+    command:
+      bash -c "python manage.py migrate && gunicorn --env DJANGO_SETTINGS_MODULE=nerdneck.settings nerdneck.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8005 --timeout=60"
+    depends_on:
+      - redis
+
   redis:
     container_name: redis
     image: redis

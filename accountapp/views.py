@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin, ListView
-from rest_framework import serializers, generics
+from rest_framework import serializers, generics, viewsets
 from rest_framework.response import Response
 
 from accountapp.decorator import account_ownership_required
@@ -78,29 +78,14 @@ class AccountDeleteView(DeleteView):
     #         return HttpResponseForbidden()
 
 
-# Account 리스트 시리얼라이저.
-class AccountListSerializer(serializers.ModelSerializer):
+class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'date_joined', 'is_staff')
 
-
-# accounts/api으로 get하면 listview로 연결
-class AccountListView(generics.ListAPIView):
+class AccountModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = AccountListSerializer
-
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializers_class = self.get_serializer_class()
-        serializer = serializers_class(queryset, many=True)
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer_class(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        return Response(serializer.data)
+    serializer_class = AccountSerializer
 
 def homeView(request):
     return render(request, 'accountapp/home.html')

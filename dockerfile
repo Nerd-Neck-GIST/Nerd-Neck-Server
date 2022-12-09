@@ -26,8 +26,6 @@ RUN pip3 install -r /home/ubuntu/nerdneck/requirements.txt
 
 RUN pip3 install gunicorn
 
-RUN pip3 install uvicorn
+RUN pip3 install uvicorn[standard]
 
 RUN python manage.py collectstatic --settings=nerdneck.settings --noinput
-
-EXPOSE 8000

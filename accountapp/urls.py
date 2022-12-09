@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 
 from accountapp.views import AccountCreateView, AccountUpdateView, AccountDeleteView, \
-    AccountListView, AccountDetailView
+    AccountDetailView, AccountModelViewSet
 from django.urls import path
 from django.urls.conf import include
 
@@ -16,5 +16,6 @@ urlpatterns = [
     path('update/<int:pk>', AccountUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', AccountDeleteView.as_view(), name='delete'),
 
-    path('api/', AccountListView.as_view(), name='api'),
+    path('accounts', AccountModelViewSet.as_view({"get": "list", "post": "create"})),
+    path('accounts/<int:pk>', AccountModelViewSet.as_view({"get": "retrieve", "delete": "destroy", "put": "update"})),
 ]

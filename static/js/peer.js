@@ -6,6 +6,11 @@ var mapPeers = {};
 // to remote peers
 var mapScreenPeers = {};
 
+var username = {{ user.username }};
+console.log(username);
+console.log("/////////////////////////////");
+var usertest = {{ username }};
+console.log(usertest);
 
 const localVideo = document.querySelector('#local-video');
 const canvas = document.getElementById("canvas");
@@ -15,8 +20,6 @@ const remoteVideo = document.querySelector('#remote-video');
 // local video stream
 var localStream = new MediaStream();
 
-var username = '{{user.username}}';
-
 // ul of messages
 var ul = document.querySelector("#message-list");
 
@@ -24,9 +27,9 @@ var pcConfig = {
     'iceServers': [{
       'urls': 'stun:stun.l.google.com:19302'
     },
-    {urls: "turn:numb.viagenie.ca",
-    credential: "muazkh",
-    username: "webrtc@live.com"}]
+    {"urls": "turn:numb.viagenie.ca",
+    "credential": "muazkh",
+    "username": "webrtc@live.com"}]
 };
 
 var sdpConstraints = {
@@ -46,26 +49,53 @@ if(loc.protocol == 'https:'){
 var endPoint = wsStart + loc.host + loc.pathname;
 console.log('endpoint: ', endPoint);
 var webSocket;
+var usernameInput = document.querySelector('#username');
+var username;
 
-webSocket = new WebSocket(endPoint);
+var btnJoin = document.querySelector('#btn-join');
 
-webSocket.addEventListener('open', function(e){
-    console.log('Connection opened! ', e);
+// set username
+// join room (initiate websocket connection)
+// upon button click
+btnJoin.addEventListener('click', () => {
+    username = usernameInput.value;
 
-    // notify other peers
-    sendSignal('new-peer', {
-        // 'local_screen_sharing': false,
+    if(username == ''){
+        // ignore if username is empty
+        return;
+    }
+    endPoint = endPoint + username
+    // clear input
+    usernameInput.value = '';
+    // disable and vanish input
+    usernameInput.disabled = true;
+    usernameInput.style.visibility = 'hidden';
+    // disable and vanish join button
+    btnJoin.disabled = true;
+    btnJoin.style.visibility = 'hidden';
+
+    document.querySelector('#label-username').innerHTML = username;
+
+    webSocket = new WebSocket(endPoint);
+
+    webSocket.addEventListener('open', function(e){
+        console.log('Connection opened! ', e);
+
+        // notify other peers
+        sendSignal('new-peer', {
+            // 'local_screen_sharing': false,
+        });
     });
-});
 
-webSocket.addEventListener('message', webSocketOnMessage);
+    webSocket.addEventListener('message', webSocketOnMessage);
 
-webSocket.addEventListener('close', function(e){
-    console.log('Connection closed! ', e);
-});
+    webSocket.addEventListener('close', function(e){
+        console.log('Connection closed! ', e);
+    });
 
-webSocket.addEventListener('error', function(e){
-    console.log('Error occured! ', e);
+    webSocket.addEventListener('error', function(e){
+        console.log('Error occured! ', e);
+    });
 });
 
 function webSocketOnMessage(event){
@@ -77,7 +107,8 @@ function webSocketOnMessage(event){
     
     console.log('peerUsername: ', peerUsername);
     console.log('action: ', action);
-
+    var username = {{ user.username }};
+    console.log("22222222222222222222222")
     if(peerUsername == username){
         // ignore all messages from oneself
         return;
@@ -333,9 +364,15 @@ function findAngle(keypoints){
     return angle;
 }
 
+
 // send the given action and message
 // over the websocket connection
 function sendSignal(action, message){
+    var username = {{ user.username }};
+    console.log("3333333333333333333333")
+
+    console.log(username);
+
     webSocket.send(
         JSON.stringify(
             {
