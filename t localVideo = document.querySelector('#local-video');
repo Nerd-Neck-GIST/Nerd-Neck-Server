@@ -1,0 +1,47 @@
+[33mcommit c98b4e25026830089d0579ee7f6e1afb8b3059ab[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/feat/enter-room-js[m[33m)[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Fri Dec 9 15:23:38 2022 +0900
+
+    enter_room.js
+
+[33mcommit ec73505233b3d850bd5fd59e6957443e768b5664[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Mon Dec 5 21:50:03 2022 +0900
+
+    first commit
+
+[33mcommit 86a336fd71a34f0c5ddaf7b61170c64cd3caf022[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Fri Dec 2 05:00:20 2022 +0900
+
+    requirement_adjust1
+
+[33mcommit acb9fe60aec163b557df5a9d36113ad8aaf680f0[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Fri Dec 2 04:24:56 2022 +0900
+
+    requirement_adjust
+
+[33mcommit 5a1b57efad115a60e06ade7440a3cd9ed0277097[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Fri Dec 2 03:36:51 2022 +0900
+
+    second webrtc video test
+
+[33mcommit a5e1ed94329213931100c08101ff0cb7b1206559[m
+Author: seunghoon-choi <chltmdwkd@gmail.com>
+Date:   Mon Nov 28 19:14:33 2022 +0900
+
+    basic webrtc video test
+
+[33mcommit 270e5db6b2985c616ea7dc2f71ec7b090249899b[m[33m ([m[1;31morigin/signalling[m[33m)[m
+Author: juchan <jclee0109@gist.ac.kr>
+Date:   Sat Nov 26 17:54:21 2022 +0900
+
+    add gitignore
+
+[33mcommit 748ae4bd96f6bd20e8f27e4d3312c9fcdc8de9ce[m
+Author: juchan <jclee0109@gist.ac.kr>
+Date:   Sat Nov 26 17:50:55 2022 +0900
+
+    Chatapp using Django Channel (Web Socket)

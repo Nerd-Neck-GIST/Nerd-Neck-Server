@@ -15,6 +15,7 @@ const remoteVideo = document.querySelector('#remote-video');
 // local video stream
 var localStream = new MediaStream();
 
+var username = '{{user.username}}';
 
 // ul of messages
 var ul = document.querySelector("#message-list");
