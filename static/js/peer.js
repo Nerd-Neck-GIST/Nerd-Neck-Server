@@ -46,8 +46,6 @@ var endPoint = wsStart + loc.host + loc.pathname;
 console.log('endpoint: ', endPoint);
 var webSocket;
 
-var start = document.querySelector('#start');
-
 webSocket = new WebSocket(endPoint);
 
 webSocket.addEventListener('open', function(e){
